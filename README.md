@@ -15,10 +15,10 @@ java -cp ./jsoup-1.8.3.jar:. NBAPredictions
 Example output for 12/7/2017 games:
 ```
 Home team:			Away team:
-Utah: 98.91671100816927	Houston: 102.81344192907075
-Brooklyn: 107.72478011831357	Okla City: 109.9169178477522
-Phoenix: 101.72684591067014	Washington: 113.93372025909062
-Philadelphia: 112.17628094776049	LA Lakers: 104.11017764381452
+Utah            98.92 vs Houston         102.81
+Brooklyn        107.72 vs Okla City       109.92
+Phoenix         101.73 vs Washington      113.93
+Philadelphia    112.18 vs LA Lakers       104.11
 ```
 
 This project demonstrates a profeciency in 2D Arrays(getSchedule method), HashMaps(getData method), and Objects(new Object TeamData) in Java.
