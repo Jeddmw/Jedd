@@ -57,7 +57,7 @@ public class NBAPredictions {
 
                 //Print out projections
                 // System.out.println(homeTeam + ": " + String.format("%02.0f", homePoints) + "		" + awayTeam + ": " + String.format("%02.0f",awayPoints));
-		System.out.format("%-16s%-5.2f vs %-16s%-5.2f\n", homeTeam, homePoints, awayTeam, awayPoints);
+		System.out.format("%-16s%-5.2f\tvs\t%-16s%-5.2f\n", homeTeam, homePoints, awayTeam, awayPoints);
             } catch (NullPointerException ex) {
                 //Could not find team name
             }
