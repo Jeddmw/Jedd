@@ -56,8 +56,7 @@ public class NBAPredictions {
                 double awayPoints = awayAvg * awayOffFactor * homeDefFactor;
 
                 //Print out projections
-                // System.out.println(homeTeam + ": " + String.format("%02.0f", homePoints) + "		" + awayTeam + ": " + String.format("%02.0f",awayPoints));
-		System.out.format("%-16s%-5.2f\tvs\t%-16s%-5.2f\n", homeTeam, homePoints, awayTeam, awayPoints);
+								System.out.format("%-16s%-5.2f\tvs\t%-16s%-5.2f\n", (homeTeam + ":"), homePoints, (awayTeam + ":"), awayPoints);
             } catch (NullPointerException ex) {
                 //Could not find team name
             }
@@ -99,13 +98,13 @@ public class NBAPredictions {
             if (tds.size() > 1) {
                 //Original String looks something like "#28 LA Lakers at #1 Golden State"
                 //first remove number and #
-                String temp = tds.get(2).text().replaceAll("\\d", "").replaceAll("#", "").trim();
+                String temp = tds.get(2).text().replaceAll("\\d", "").replaceAll("#", "").replaceAll("\\.", "").trim();
                 //all that's left is to split the string by at to get home and away teams
                 String[] split = new String[2];
                 if (temp.contains("at")) {
                     split = temp.split("at");
-                } else if (temp.contains("vs.")) {
-                    split = temp.split("vs.");
+                } else if (temp.contains("vs")) {
+                    split = temp.split("vs");
                 }
                 data[count] = split; //store data in 2D String Array
                 count++;
