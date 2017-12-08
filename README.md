@@ -8,19 +8,17 @@ In order to run this program download the [jsoup library](https://jsoup.org/) an
 
 To compile and run from command line (change jsoup file name/location if necessary):
 ```
-javac -cp ./jsoup-1.8.3.jar NBAPredictions.java
+javac -cp ./jsoup-1.8.3.jar *.java
 java -cp ./jsoup-1.8.3.jar:. NBAPredictions
 ```
 
-Example output for 3/6/2017 games:
+Example output for 12/7/2017 games:
 ```
 Home team:			Away team:
-Atlanta: 102.51073361956318	Boston: 107.632841269333
-Indiana: 104.36102296061229	Milwaukee: 100.33750680457268
-New York: 107.3085682284861	Washington: 110.38624355566941
-Portland: 113.03229419451188	Minnesota: 107.89970860418202
-Philadelphia: 100.46201232032854	Chicago: 103.86105863140031
-Orlando: 106.66268433824902	Brooklyn: 106.96115789810753
+Utah: 98.91671100816927	Houston: 102.81344192907075
+Brooklyn: 107.72478011831357	Okla City: 109.9169178477522
+Phoenix: 101.72684591067014	Washington: 113.93372025909062
+Philadelphia: 112.17628094776049	LA Lakers: 104.11017764381452
 ```
 
 This project demonstrates a profeciency in 2D Arrays(getSchedule method), HashMaps(getData method), and Objects(new Object TeamData) in Java.
