@@ -7,19 +7,18 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 // Predicts NBA games using basic math. Uses Jsoup
-public class NBAPredictions
-{
-	public static void main(String args[]) throws IOException
-	{
+public class NBAPredictions {
+	public static void main(String args[]) throws IOException {
 		//Get points scored and conceded home and away by team
-		HashMap<String, TeamData> pointsScored = getData(true);
-		HashMap<String, TeamData> pointsConceded = getData(false);
+		HashMap < String,
+		TeamData > pointsScored = getData(true);
+		HashMap < String,
+		TeamData > pointsConceded = getData(false);
 
 		//Calculate average home/away points scored
 		double homeSum = 0;
 		double awaySum = 0;
-		for (String teamName: pointsScored.keySet())
-		{
+		for (String teamName: pointsScored.keySet()) {
 			TeamData data = pointsScored.get(teamName);
 			double homePoints = data.homePoints;
 			double awayPoints = data.awayPoints;
@@ -29,18 +28,16 @@ public class NBAPredictions
 		double homeAvg = homeSum / 30;
 		double awayAvg = awaySum / 30;
 
-		System.out.println("Home team:\t\t\tAway team:");//Print Header
+		System.out.println("Home team:\t\t\tAway team:"); //Print Header
 
 		//Get schedule and loop through schedule and use data to calculate projected points
 		String[][] schedule = getSchedule();
-		for (String[] game: schedule)
-		{
+		for (String[] game: schedule) {
 			//Get team names
 			String homeTeam = game[1].trim();
 			String awayTeam = game[0].trim();
 
-			try
-			{
+			try {
 				//Get both team's points scored and conceded values from Hashmap
 				double homePointsScored = pointsScored.get(homeTeam).homePoints;
 				double awayPointsScored = pointsScored.get(awayTeam).awayPoints;
@@ -62,70 +59,62 @@ public class NBAPredictions
 
 				//Print out projections
 				System.out.println(homeTeam + ": " + homePoints + "\t" + awayTeam + ": " + awayPoints);
-			}
-			catch (NullPointerException ex)
-			{
+			} catch(NullPointerException ex) {
 				//Could not find team name
 			}
 		}
 	}
 
 	//gets Data either points scored or conceded
-	static HashMap<String, TeamData> getData(boolean isOffensive) throws IOException
-	{
-		HashMap<String, TeamData> data = new HashMap<String, TeamData>();
+	static HashMap < String,
+	TeamData > getData(boolean isOffensive) throws IOException {
+		HashMap < String,
+		TeamData > data = new HashMap < String,
+		TeamData > ();
 		String url = "https://www.teamrankings.com/nba/stat/points-per-game";
 		if (!isOffensive) {
 			url = "https://www.teamrankings.com/nba/stat/opponent-points-per-game";
 		}
-		Document doc = Jsoup.connect(url).timeout(10*1000).get(); // timeout = 10 seconds
+		Document doc = Jsoup.connect(url).timeout(10 * 1000).get(); // timeout = 10 seconds
 		Element table = doc.select("table[class=tr-table datatable scrollable]").first(); //select table
-		for (Element row : table.select("tr"))
-        {
-            Elements tds = row.select("td");
-            if (tds.size() > 1)
-            {
-            	String team = tds.get(1).text();
-            	double homePoints = Double.parseDouble(tds.get(5).text());
-            	double awayPoints = Double.parseDouble(tds.get(6).text());
-            	TeamData points = new TeamData(homePoints, awayPoints);
-            	data.put(team, points); //Store data in Hashmap
-            }
-        }
+		for (Element row: table.select("tr")) {
+			Elements tds = row.select("td");
+			if (tds.size() > 1) {
+				String team = tds.get(1).text();
+				double homePoints = Double.parseDouble(tds.get(5).text());
+				double awayPoints = Double.parseDouble(tds.get(6).text());
+				TeamData points = new TeamData(homePoints, awayPoints);
+				data.put(team, points); //Store data in Hashmap
+			}
+		}
 		return data;
 	}
 
 	//Index 0 is away 1 is home
-	static String[][] getSchedule() throws IOException
-	{
+	static String[][] getSchedule() throws IOException {
 		String url = "https://www.teamrankings.com/nba/schedules/";
-		Document doc = Jsoup.connect(url).timeout(10*1000).get(); // timeout = 10 seconds
+		Document doc = Jsoup.connect(url).timeout(10 * 1000).get(); // timeout = 10 seconds
 		Element table = doc.select("table[class=tr-table datatable scrollable]").first(); //select table
 		Elements rows = table.select("tr");
 		String[][] data = new String[rows.size() - 1][2];
 		int count = 0; //which row we're on. will use to store data in 2D Array
-		for (Element row : rows)
-    {
-      Elements tds = row.select("td");
-      if (tds.size() > 1)
-      {
+		for (Element row: rows) {
+			Elements tds = row.select("td");
+			if (tds.size() > 1) {
 				//Original String looks something like "#28 LA Lakers at #1 Golden State"
-        //first remove number and #
-        String temp = tds.get(2).text().replaceAll("\\d","").replaceAll("#", "").trim();
-        //all that's left is to split the string by at to get home and away teams
+				//first remove number and #
+				String temp = tds.get(2).text().replaceAll("\\d", "").replaceAll("#", "").trim();
+				//all that's left is to split the string by at to get home and away teams
 				String[] split = new String[2];
-				if (temp.contains("at"))
-				{
+				if (temp.contains("at")) {
 					split = temp.split("at");
-				}
-				else if (temp.contains("vs."))
-				{
+				} else if (temp.contains("vs.")) {
 					split = temp.split("vs.");
 				}
 				data[count] = split; //store data in 2D String Array
-        count++;
+				count++;
 			}
-    }
+		}
 		return data;
 	}
 }
