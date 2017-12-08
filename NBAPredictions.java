@@ -14,7 +14,7 @@ public class NBAPredictions
 		//Get points scored and conceded home and away by team
 		HashMap<String, TeamData> pointsScored = getData(true);
 		HashMap<String, TeamData> pointsConceded = getData(false);
-		
+
 		//Calculate average home/away points scored
 		double homeSum = 0;
 		double awaySum = 0;
@@ -28,44 +28,51 @@ public class NBAPredictions
 		}
 		double homeAvg = homeSum / 30;
 		double awayAvg = awaySum / 30;
-		
+
 		System.out.println("Home team:\t\t\tAway team:");//Print Header
-		
+
 		//Get schedule and loop through schedule and use data to calculate projected points
 		String[][] schedule = getSchedule();
 		for (String[] game: schedule)
 		{
 			//Get team names
-			String homeTeam = game[1];
-			String awayTeam = game[0];
+			String homeTeam = game[1].trim();
+			String awayTeam = game[0].trim();
 
-			//Get both team's points scored and conceded values from Hashmap
-			double homePointsScored = pointsScored.get(homeTeam).homePoints;
-			double awayPointsScored = pointsScored.get(awayTeam).awayPoints;
-			double homePointsConceded = pointsConceded.get(homeTeam).homePoints;
-			double awayPointsConceded = pointsConceded.get(awayTeam).awayPoints;
+			try
+			{
+				//Get both team's points scored and conceded values from Hashmap
+				double homePointsScored = pointsScored.get(homeTeam).homePoints;
+				double awayPointsScored = pointsScored.get(awayTeam).awayPoints;
+				double homePointsConceded = pointsConceded.get(homeTeam).homePoints;
+				double awayPointsConceded = pointsConceded.get(awayTeam).awayPoints;
 
-			//Calculate home and away offensive and defensive factors
-			//Ex: LA Lakers concede an average of 113.9	points away, compared
-			// to the league average of 107.14. Therefore, compared to the average NBA defense, 
-			// LA concedes ~6.3% more points on road trips than the average NBA defense
-			double homeOffFactor = homePointsScored / homeAvg;
-			double homeDefFactor = homePointsConceded / awayAvg; //away points scored avg is home points conceded avg
-			double awayOffFactor = awayPointsScored / awayAvg;
-			double awayDefFactor = awayPointsConceded / homeAvg; //home points scored avg is away points conceded avg
-			
-			//Multiply the average points scored home/away by each of the offensive and defensive factors
-			double homePoints = homeAvg * homeOffFactor * awayDefFactor;
-			double awayPoints = awayAvg * awayOffFactor * homeDefFactor;
+				//Calculate home and away offensive and defensive factors
+				//Ex: LA Lakers concede an average of 113.9	points away, compared
+				// to the league average of 107.14. Therefore, compared to the average NBA defense,
+				// LA concedes ~6.3% more points on road trips than the average NBA defense
+				double homeOffFactor = homePointsScored / homeAvg;
+				double homeDefFactor = homePointsConceded / awayAvg; //away points scored avg is home points conceded avg
+				double awayOffFactor = awayPointsScored / awayAvg;
+				double awayDefFactor = awayPointsConceded / homeAvg; //home points scored avg is away points conceded avg
 
-			//Print out projections
-			System.out.println(homeTeam + ": " + homePoints + "\t" + awayTeam + ": " + awayPoints);
+				//Multiply the average points scored home/away by each of the offensive and defensive factors
+				double homePoints = homeAvg * homeOffFactor * awayDefFactor;
+				double awayPoints = awayAvg * awayOffFactor * homeDefFactor;
+
+				//Print out projections
+				System.out.println(homeTeam + ": " + homePoints + "\t" + awayTeam + ": " + awayPoints);
+			}
+			catch (NullPointerException ex)
+			{
+				//Could not find team name
+			}
 		}
 	}
-	
+
 	//gets Data either points scored or conceded
 	static HashMap<String, TeamData> getData(boolean isOffensive) throws IOException
-	{		
+	{
 		HashMap<String, TeamData> data = new HashMap<String, TeamData>();
 		String url = "https://www.teamrankings.com/nba/stat/points-per-game";
 		if (!isOffensive) {
@@ -84,10 +91,10 @@ public class NBAPredictions
             	TeamData points = new TeamData(homePoints, awayPoints);
             	data.put(team, points); //Store data in Hashmap
             }
-        }		
+        }
 		return data;
 	}
-	
+
 	//Index 0 is away 1 is home
 	static String[][] getSchedule() throws IOException
 	{
@@ -106,11 +113,19 @@ public class NBAPredictions
             	//first remove number and #
             	String temp = tds.get(2).text().replaceAll("\\d","").replaceAll("#", "").trim();
             	//all that's left is to split the string by at to get home and away teams
-            	String[] split = temp.split(" at  ");
+							String[] split = new String[2];
+							if (temp.contains("at"))
+							{
+								split = temp.split("at");
+							}
+							else if (temp.contains("vs."))
+							{
+								split = temp.split("vs.");
+							}
             	data[count] = split; //store data in 2D String Array
             	count++;
             }
-        }		
+        }
 		return data;
 	}
 }
