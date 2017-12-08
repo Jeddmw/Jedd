@@ -124,7 +124,7 @@ public class NBAPredictions
 				}
 				data[count] = split; //store data in 2D String Array
         count++;
-        }
+			}
     }
 		return data;
 	}
