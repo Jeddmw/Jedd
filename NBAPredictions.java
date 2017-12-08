@@ -105,27 +105,27 @@ public class NBAPredictions
 		String[][] data = new String[rows.size() - 1][2];
 		int count = 0; //which row we're on. will use to store data in 2D Array
 		for (Element row : rows)
-        {
-            Elements tds = row.select("td");
-            if (tds.size() > 1)
-            {
-            	//Original String looks something like "#28 LA Lakers at #1 Golden State"
-            	//first remove number and #
-            	String temp = tds.get(2).text().replaceAll("\\d","").replaceAll("#", "").trim();
-            	//all that's left is to split the string by at to get home and away teams
-							String[] split = new String[2];
-							if (temp.contains("at"))
-							{
-								split = temp.split("at");
-							}
-							else if (temp.contains("vs."))
-							{
-								split = temp.split("vs.");
-							}
-            	data[count] = split; //store data in 2D String Array
-            	count++;
-            }
+    {
+      Elements tds = row.select("td");
+      if (tds.size() > 1)
+      {
+				//Original String looks something like "#28 LA Lakers at #1 Golden State"
+        //first remove number and #
+        String temp = tds.get(2).text().replaceAll("\\d","").replaceAll("#", "").trim();
+        //all that's left is to split the string by at to get home and away teams
+				String[] split = new String[2];
+				if (temp.contains("at"))
+				{
+					split = temp.split("at");
+				}
+				else if (temp.contains("vs."))
+				{
+					split = temp.split("vs.");
+				}
+				data[count] = split; //store data in 2D String Array
+        count++;
         }
+    }
 		return data;
 	}
 }
