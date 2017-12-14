@@ -87,7 +87,7 @@ public class NBAPredictions {
 
     //Index 0 is away 1 is home
     static String[][] getSchedule() throws IOException {
-        String url = "https://www.teamrankings.com/nba/schedules/?date=2017-12-14";
+        String url = "https://www.teamrankings.com/nba/schedules/";
         Document doc = Jsoup.connect(url).timeout(10 * 1000).get(); // timeout = 10 seconds
         Element table = doc.select("table[class=tr-table datatable scrollable]").first(); //select table
         Elements rows = table.select("tr");
