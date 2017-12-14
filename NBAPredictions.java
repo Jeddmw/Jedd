@@ -32,8 +32,8 @@ public class NBAPredictions {
         String[][] schedule = getSchedule();
         for (String[] game: schedule) {
             //Get team names
-            String homeTeam = game[1].trim();
-            String awayTeam = game[0].trim();
+            String homeTeam = game[1];
+            String awayTeam = game[0];
 
             try {
                 //Get both team's points scored and conceded values from Hashmap
@@ -45,7 +45,7 @@ public class NBAPredictions {
                 //Calculate home and away offensive and defensive factors
                 //Ex: LA Lakers concede an average of 113.9	points away, compared
                 // to the league average of 107.14. Therefore, compared to the average NBA defense,
-                // LA concedes ~6.3% more points on road trips than the average NBA defense
+                // LA concedes ~6.3% more points on road trips than the average NBA defense (2016-2017 season as of 3/6/2017)
                 double homeOffFactor = homePointsScored / homeAvg;
                 double homeDefFactor = homePointsConceded / awayAvg; //away points scored avg is home points conceded avg
                 double awayOffFactor = awayPointsScored / awayAvg;
@@ -56,7 +56,7 @@ public class NBAPredictions {
                 double awayPoints = awayAvg * awayOffFactor * homeDefFactor;
 
                 //Print out projections
-								System.out.format("%-16s%-5.2f\tvs\t%-16s%-5.2f\n", (homeTeam + ":"), homePoints, (awayTeam + ":"), awayPoints);
+                System.out.format("%-16s%-5.2f\tvs\t%-16s%-5.2f\n", (homeTeam + ":"), homePoints, (awayTeam + ":"), awayPoints);
             } catch (NullPointerException ex) {
                 //Could not find team name
             }
@@ -87,7 +87,7 @@ public class NBAPredictions {
 
     //Index 0 is away 1 is home
     static String[][] getSchedule() throws IOException {
-        String url = "https://www.teamrankings.com/nba/schedules/";
+        String url = "https://www.teamrankings.com/nba/schedules/?date=2017-12-14";
         Document doc = Jsoup.connect(url).timeout(10 * 1000).get(); // timeout = 10 seconds
         Element table = doc.select("table[class=tr-table datatable scrollable]").first(); //select table
         Elements rows = table.select("tr");
@@ -100,12 +100,17 @@ public class NBAPredictions {
                 //first remove number and #
                 String temp = tds.get(2).text().replaceAll("\\d", "").replaceAll("#", "").replaceAll("\\.", "").trim();
                 //all that's left is to split the string by at to get home and away teams
-                String[] split = new String[2];
+                String[] split = {
+                    "",
+                    ""
+                };
                 if (temp.contains("at")) {
-                    split = temp.split("at");
+                    split = temp.split("at", 2); //only split on first instance
                 } else if (temp.contains("vs")) {
-                    split = temp.split("vs");
+                    split = temp.split("vs", 2); //only split on first instance
                 }
+                split[0] = split[0].trim(); //remove trailing whitespace
+                split[1] = split[1].trim(); //remove trailing whitespace
                 data[count] = split; //store data in 2D String Array
                 count++;
             }
