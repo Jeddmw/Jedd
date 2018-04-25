@@ -56,9 +56,10 @@ public class NBAPredictions {
                 double awayPoints = awayAvg * awayOffFactor * homeDefFactor;
 
                 //Print out projections
-                System.out.format("%-16s%-5.2f\tvs\t%-16s%-5.2f\n", (homeTeam + ":"), homePoints, (awayTeam + ":"), awayPoints);
+								System.out.format("%-16s%-5.2f\tvs\t%-16s%-5.2f\n", (homeTeam + ":"), homePoints, (awayTeam + ":"), awayPoints);
             } catch (NullPointerException ex) {
                 //Could not find team name
+                //System.out.println("Error when getting predictions for " + homeTeam + " vs " + awayTeam);
             }
         }
     }
@@ -100,14 +101,11 @@ public class NBAPredictions {
                 //first remove number and #
                 String temp = tds.get(2).text().replaceAll("\\d", "").replaceAll("#", "").replaceAll("\\.", "").trim();
                 //all that's left is to split the string by at to get home and away teams
-                String[] split = {
-                    "",
-                    ""
-                };
+                String[] split = {"", ""};
                 if (temp.contains("at")) {
-                    split = temp.split("at", 2); //only split on first instance
+                    split = temp.split(" at ", 2); //only split on first instance
                 } else if (temp.contains("vs")) {
-                    split = temp.split("vs", 2); //only split on first instance
+                    split = temp.split(" vs ", 2); //only split on first instance
                 }
                 split[0] = split[0].trim(); //remove trailing whitespace
                 split[1] = split[1].trim(); //remove trailing whitespace
