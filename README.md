@@ -8,8 +8,8 @@ In order to run this program download the [jsoup library](https://jsoup.org/) an
 
 To compile and run from command line (change jsoup file name/location if necessary):
 ```
-javac -cp ./jsoup-1.8.3.jar *.java
-java -cp ./jsoup-1.8.3.jar:. NBAPredictions
+javac -cp ./jsoup-1.13.1.jar *.java
+java -cp ./jsoup-1.13.1.jar:. NBAPredictions
 ```
 
 Example output for 12/7/2017 games:
