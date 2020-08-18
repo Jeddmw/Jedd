@@ -1,0 +1,6 @@
+Tue Aug 18 09:29:19 PDT 2020
+Home team:			Away team:
+Houston:        113.97	vs	Okla City:      109.37
+Indiana:        108.28	vs	Miami:          103.31
+LA Lakers:      119.32	vs	Portland:       108.04
+Milwaukee:      119.47	vs	Orlando:        105.07
