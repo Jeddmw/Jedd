@@ -1,8 +1,10 @@
 default:
 	javac -cp ./jsoup-1.13.1.jar *.java
-	echo '\n' >> scores.txt
-	echo `date` >> scores.txt
-	java -cp ./jsoup-1.13.1.jar:. NBAPredictions >> scores.txt
+	echo '\n' >> README.md
+	echo `date` >> README.md
+	echo \`\`\` >> README.md
+	java -cp ./jsoup-1.13.1.jar:. NBAPredictions >> README.md
+	echo \`\`\` >> README.md
 
 clean:
 	$(RM) *.class

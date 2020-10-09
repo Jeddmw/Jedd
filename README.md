@@ -23,3 +23,11 @@ Philadelphia:    112.18	vs	LA Lakers:       104.11
 ```
 
 This project demonstrates a profeciency in 2D Arrays(getSchedule method), HashMaps(getData method), and Objects(new Object TeamData) in Java.
+
+Other Dates Recorded:
+
+Fri Oct 9 15:54:33 PDT 2020
+```
+Home team:			Away team:
+LA Lakers:      111.69	vs	Miami:          103.87
+```
